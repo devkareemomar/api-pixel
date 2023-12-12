@@ -1,0 +1,13 @@
+{
+    "Current password field is required": "حقل الرقم السرى الحالى مطلوب.",
+    "Digit is required(0-9)": "الرقم مطلوب لكلمة المرور (0-9) ",
+    "Lowercase is required(a-z)": "الحروف الصغيرة مطلوبة لكلمات المرور (a-z) ",
+    "Special Characters is required($, _, &, @, *, ~, %)": "مطلوب أحرف خاصة لكلمة المرور ($, _, &, @, *, ~, %) ",
+    "Uppercase is required (A-Z)": "مطلوب أحرف كبيرة لكلمة المرور (A-Z) ",
+    "Your password has been updated.": "تم تغيير الرقم السرى بنجاح",
+    "Email field is required.": "حقل البريد الالكترونى مطلوب",
+    "Gifts retrieved successfully.": "تم استرجاع الهدايا بنجاح",
+    "Gift added successfully": "تم اضافة الهدية بنجاح",
+    "This National ID already exists": "هذه الهوية الوطنية موجودة بالفعل",
+    "Something goes wrong. Please contact us directly by phone or email.": "حدث خطأ ما. يرجى الاتصال بنا مباشرة عن طريق الهاتف أو البريد الإلكتروني."
+}
