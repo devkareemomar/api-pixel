@@ -39,7 +39,6 @@ class RegistrationService implements RegistrationInterface
         $data = [
             'token' => $token,
             'name' => $user_data->name,
-            'username' => $user_data->username,
             'email' => $user_data->email,
             'phone' => $user_data->phone,
         ];
