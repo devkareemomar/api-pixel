@@ -65,20 +65,26 @@ class RegistrationService implements RegistrationInterface
             'password' => 'required|min:8|confirmed',
         ]);
 
-        $response = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function (User $user, string $password) {
-                $user->forceFill([
-                    'password' => Hash::make($password)
-                ])->setRememberToken(Str::random(60));
+        // $response = Password::reset(
+        //     $request->only('email', 'password', 'password_confirmation', 'token'),
+        //     function (User $user, string $password) {
+        //         $user->forceFill([
+        //             'password' => Hash::make($password)
+        //         ])->setRememberToken(Str::random(60));
 
-                $user->save();
+        //         $user->save();
 
-                event(new PasswordReset($user));
-            }
-        );
+        //         event(new PasswordReset($user));
+        //     }
+        // );
 
-        if ($response === Password::PASSWORD_RESET) {
+        $user =  User::where('email',$request->email)->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        if ($user) {
+            event(new PasswordReset($user));
+
             $user_data = User::where('email', $request->email)->first();
             return response()->json(self::returnData($user_data));
         }

@@ -38,12 +38,13 @@ class CartController extends BaseApiController
             $cart = Cart::where('session_id', $request->input('user_session'))->latest()->first();
         }
         if ($cart) {
+            $cart->delete();
             $project = CartProject::where('cart_id', $cart->id)
                 ->where('project_id', $projectId)
                 ->first();
             $project?->delete();
         }
 
-        return response()->noContent();
+        return response()->json(['message'=>__('cart.removed_successfully')]);
     }
 }

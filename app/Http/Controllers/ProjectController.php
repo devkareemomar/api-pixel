@@ -72,7 +72,7 @@ class ProjectController extends BaseApiController
         $currentDate = date('Y-m-d');
 
         $projects = Project::query()
-            ->select('projects.name', 'projects.id')
+            ->select('projects.name', 'projects.id','projects.slug')
             ->where('visibility', '=', '0')
             ->where('hidden', '=', '0')
             ->where('active','=','1')
@@ -84,7 +84,7 @@ class ProjectController extends BaseApiController
 
         $data = [];
         foreach ($projects as $project) {
-            $data[] = ['id' => $project->id, 'name' => $project->name];
+            $data[] = ['id' => $project->id,'slug' => $project->slug, 'name' => $project->name];
         }
 
         return response()->json([

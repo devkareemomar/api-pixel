@@ -19,9 +19,18 @@ class CartService implements CartServiceInterface
 
     public function projects($request, $id)
     {
-        return Cart::where('user_id', $id)->orWhere('session_id', $id)->projects()
-            ->select('projects.id', 'thumbnail', 'name', 'short_description', 'cart_project.amount')
+        $carts = Cart::where('user_id', $id)->orWhere('session_id', $id)->with('cartProjects')
             ->get();
+            $data = [];
+            foreach ($carts as $cart){
+
+                $data[] = [
+                    'cart_id'=> $cart->id,
+                    'projects'=> $cart->cartProjects[0]?? '',
+                ];
+            }
+
+        return $data;
     }
 
     public function add($request)

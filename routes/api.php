@@ -39,6 +39,7 @@ use App\Http\Controllers\FormController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
 Route::post('forgot/email', [RegistrationController::class, 'sendResetLinkEmail']);
 Route::post('password/reset', [RegistrationController::class, 'reset'])->name('password.reset');
 
@@ -46,7 +47,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('setDataForm/{form_id}', [FormController::class,'setDataForm']);
+Route::post('setDataForm/{form_id}', [FormController::class, 'setDataForm']);
 Route::get('getFormStatus/{order_number}', [FormController::class, 'getFormStatus']);
 Route::get('getDataForm/{form_id}', [FormController::class, 'getDataForm']);
 
@@ -94,9 +95,12 @@ Route::get('init/request', [InitRequestController::class, 'init']);
 
 Route::get('link/{code}', [LinkController::class, 'link']);
 
-Route::get('carts/{id}', [CartController::class, 'projects']);
-Route::post('carts', [CartController::class, 'add']);
-Route::post('carts/{project}', [CartController::class, 'remove']);
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::get('carts/{id}', [CartController::class, 'projects']);
+    Route::post('carts', [CartController::class, 'add']);
+    Route::post('carts/{project}', [CartController::class, 'remove']);
+});
 
 
 Route::get('menus', [MenuController::class, 'index']);
@@ -134,4 +138,3 @@ Route::post('gifts', [GiftController::class, 'store']);
 
 Route::get('search', [ProjectController::class, 'search']);
 Route::get('gold-prices', GoldPriceController::class);
-
