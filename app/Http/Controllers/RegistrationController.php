@@ -21,7 +21,7 @@ class RegistrationController extends BaseApiController
         if (empty($result)) {
             return $this->return_fail(__('auth.login_fail'), []);
         }
-        return $this->return_success(__('auth.login_success'), [$result]);
+        return $this->return_success(__('auth.login_success'), $result);
     }
 
     public function sendResetLinkEmail(Request $request)
