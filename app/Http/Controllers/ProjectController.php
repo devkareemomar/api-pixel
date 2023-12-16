@@ -22,7 +22,7 @@ class ProjectController extends BaseApiController
     public function project(Request $request)
     {
         $projects = $this->project->project($request);
-        return ProjectResource::collection($projects);
+        return ProjectAllResource::collection($projects);
     }
 
     public function project_details(Request $request, $id)
@@ -107,8 +107,8 @@ class ProjectController extends BaseApiController
         $data = [];
         foreach ($projects as $project) {
             $data[] = ['id' => $project->id, 'name' => $project->name,
-           'thumbnail' => $project->thumbnail ? config('app.dashboard') . $project->thumbnail : null,
-                'images' => ImageResource::collection($project->images)];
+            'thumbnail' => $project->thumbnail ? config('app.dashboard') . $project->thumbnail : null,
+            'images' => ImageResource::collection($project->images)];
         }
 
 
