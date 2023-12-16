@@ -78,8 +78,8 @@ class ProjectController extends BaseApiController
             ->where('active','=','1')
             // ->whereDate('start_date', '<=', $currentDate)
             // ->whereDate('end_date', '>=', $currentDate)
-            // ->orderByRaw('ISNULL(projects.order) asc, projects.order asc')
-            // ->orderBy('projects.updated_at', 'desc')
+            ->orderByRaw('ISNULL(projects.order) asc, projects.order asc')
+            ->orderBy('projects.updated_at', 'desc')
             ->get();
 
         $data = [];
