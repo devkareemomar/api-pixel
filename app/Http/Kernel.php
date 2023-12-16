@@ -46,6 +46,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\InitRequestMiddleware::class,
             \App\Http\Middleware\Visit::class,
             \App\Http\Middleware\CheckExpiration::class,
+            \App\Http\Middleware\SetLocale::class,
         ],
     ];
 

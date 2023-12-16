@@ -20,18 +20,18 @@ class SignupValidated extends FormRequest
 
     protected function signup()
     {
-        $min=Setting::first();
-        $min=$min->required_length ?? 5;
+        $min = Setting::first();
+        $min = $min->required_length ?? 5;
         $data = [
             'name' => 'required|alpha|min:3',
             'email' => 'required|email|unique:users,email',
             'username' => 'nullable|alpha_dash|unique:users,username',
             'phone' => 'nullable|unique:users,phone|numeric|digits_between:8,12',
-            'password' =>['required', 'confirmed','min:'.$min, new PasswordValidationRule()],
+            'password' => ['required', 'confirmed', 'min:' . $min, new PasswordValidationRule()],
         ];
         if (Setting::select('use_captcha_on_login')->first()->use_captcha_on_registration == 1) {
-            $data+=[
-                'captcha_token'=>new RecaptchaValidationRule()
+            $data += [
+                'captcha_token' => new RecaptchaValidationRule()
             ];
         }
         return $data;
@@ -53,10 +53,11 @@ class SignupValidated extends FormRequest
 
     public function failedValidation(Validator $validator): JsonResponse
     {
-        throw new HttpResponseException(response()->json([
-            'message' => __('auth.validation_message'),
-            'errors' => $validator->errors(),
-        ], 422));
+        $errors = collect($validator->errors())->map(function ($errorMessages) {
+            return $errorMessages[0];
+        })->toArray();
+
+        throw new HttpResponseException(response()->json(['message' => __('auth.validation_message'), 'errors' => $errors], 422));
     }
 
     public function messages()
@@ -70,8 +71,5 @@ class SignupValidated extends FormRequest
             // 'password.required' => __('auth.password_required'),
             // 'email.required' => __('auth.email_required'),
         ];
-
     }
-
-
 }
