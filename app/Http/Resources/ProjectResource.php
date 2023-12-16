@@ -83,24 +83,24 @@ class ProjectResource extends JsonResource
             'video' => $this->video,
             'banner_image' => $this->banner_image ? config('app.dashboard') . $this->banner_image : null,
             'created_at' => $this->created_at?->format('Y . m . d'),
-            'translation' => $this->getAllTranslation(),
+            // 'translation' => $this->getAllTranslation(),
             'is_multi_country' => (int)$this->is_multi_country ? true : false,
             'highlighted' => $this->highlighted ?? false,
             'images' => ImageResource::collection($this->images),
-            'category' => $this->category,
+            'category' => $this->category->name ?? '',
             'album' => $this->album,
-            'categories' => $this->categories,
+            // 'categories' => $this->categories,
             'tags' => $this->tags,
-            'languages' => $this->languages,
+            // 'languages' => $this->languages,
             'visits' => $this->visits()->count(),
             'countries' => $countries,
             'country' => $this->country,
             'albums' => AlbumResource::collection($this->albums),
             'suggested_values' => $this->suggested_values,
-            'related_projects' => $this->getRelatedProjects()->map(function ($item) {
-                $item->thumbnail = config('app.dashboard') . $item->thumbnail;
-                return $item;
-            }),
+            // 'related_projects' => $this->getRelatedProjects()->map(function ($item) {
+            //     $item->thumbnail = config('app.dashboard') . $item->thumbnail;
+            //     return $item;
+            // }),
 //            'languageProjects' => $this->languageProjects
         ];
     }

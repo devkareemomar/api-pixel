@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ImageResource;
 use App\Http\Resources\ProjectResource;
+use App\Http\Resources\ProjectAllResource;
 use App\Interfaces\ProjectInterface;
 use App\Models\LanguageProject;
 use App\Models\Project;
@@ -72,7 +73,7 @@ class ProjectController extends BaseApiController
         $currentDate = date('Y-m-d');
 
         $projects = Project::query()
-            ->select('projects.name', 'projects.id','projects.slug')
+            ->with('category')
             ->where('visibility', '=', '0')
             ->where('hidden', '=', '0')
             ->where('active','=','1')
@@ -82,14 +83,10 @@ class ProjectController extends BaseApiController
             ->orderBy('projects.updated_at', 'desc')
             ->get();
 
-        $data = [];
-        foreach ($projects as $project) {
-            $data[] = ['id' => $project->id,'slug' => $project->slug, 'name' => $project->getDefaultAttribute('name')];
-        }
+       
 
-        return response()->json([
-            'data' => $data,
-        ], 200);
+        return ProjectAllResource::collection($projects);
+
     }
 
     public function stories()
