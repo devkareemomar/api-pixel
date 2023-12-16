@@ -209,4 +209,18 @@ class Project extends Model
             ->select('id', 'name', 'thumbnail', 'slug')
             ->get();
     }
+
+
+    public function getDefaultAttribute($attribute)
+    {
+        $defaultLanguageCode = config('app.locale'); // Replace with your default language code (e.g., 'en')
+
+        // Find the default language translation for the given attribute
+        $defaultTranslation = $this->languageProject()
+            ->where('lang_code', $defaultLanguageCode)
+            ->first();
+
+        // Return the default language translation of the attribute or the original value if not available
+        return $defaultTranslation ? $defaultTranslation->$attribute : $this->$attribute;
+    }
 }

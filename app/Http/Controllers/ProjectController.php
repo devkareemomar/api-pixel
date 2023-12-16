@@ -84,7 +84,7 @@ class ProjectController extends BaseApiController
 
         $data = [];
         foreach ($projects as $project) {
-            $data[] = ['id' => $project->id,'slug' => $project->slug, 'name' => $project->name];
+            $data[] = ['id' => $project->id,'slug' => $project->slug, 'name' => $project->getDefaultAttribute('name')];
         }
 
         return response()->json([
