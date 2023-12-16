@@ -37,10 +37,23 @@ class LoginValidated extends FormRequest
         ];
     }
 
+    public function failedValidation(Validator $validator): JsonResponse
+    {
+        $errors = $validator->errors()->all(); // Get all validation error messages
+
+        throw new HttpResponseException(
+            response()->json([
+                'message' => 'Validation errors',
+                'errors' => $errors,
+            ], 422)
+        );
+    }
+
+    
     public function messages()
     {
-        return [
-            'user.required' => __('Email field is required.'),
-        ];
+        // return [
+        //     'user.required' => __('Email field is required.'),
+        // ];
     }
 }

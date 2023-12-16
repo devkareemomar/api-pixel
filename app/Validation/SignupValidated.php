@@ -53,11 +53,14 @@ class SignupValidated extends FormRequest
 
     public function failedValidation(Validator $validator): JsonResponse
     {
-        $errors = collect($validator->errors())->map(function ($errorMessages) {
-            return $errorMessages[0];
-        })->toArray();
+        $errors = $validator->errors()->all(); // Get all validation error messages
 
-        throw new HttpResponseException(response()->json(['message' => __('auth.validation_message'), 'errors' => $errors], 422));
+        throw new HttpResponseException(
+            response()->json([
+                'message' => 'Validation errors',
+                'errors' => $errors,
+            ], 422)
+        );
     }
 
     public function messages()
