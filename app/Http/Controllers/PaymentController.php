@@ -32,6 +32,7 @@ class PaymentController extends Controller
 
     public function create(PaymentRequest $request)
     {
+
         $data = $request->validated();
         // Create Order
         $latestOrder = Order::latest()->first();
@@ -73,7 +74,6 @@ class PaymentController extends Controller
             }
         }
 
-
         return $this->payment->makePayment([
             'customer_name' => 'Unkown Customer',
             'amount' => $amount,
@@ -114,4 +114,18 @@ class PaymentController extends Controller
     {
         return $this->payment->getPaymentObj()->verify(['tap_id' => $request->get('tap_id')]);
     }
+
+
+    /**
+     * Get MyFatoorah Payment Information
+     * Provide the callback method with the paymentId
+     * 
+     * @return Response
+     */
+    public function callback() {
+        $MyFatoorahPayment = new MyFatoorahPayment();
+        $MyFatoorahPayment->afterMakePayment();
+        return redirect(config('app.dashboard'));
+    }
+
 }

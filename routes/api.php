@@ -82,7 +82,12 @@ Route::post('signup/{socialType}', [RegistrationController::class, 'signupSocial
 
 Route::get('project', [ProjectController::class, 'project']);
 Route::get('projects/all', [ProjectController::class, 'allProjects']);
+Route::get('projects/banners', [ProjectController::class, 'bannerProjects']);
 Route::get('projects/stories', [ProjectController::class, 'stories']);
+Route::get('projects/gifts', [ProjectController::class, 'giftsProjects']);
+Route::get('projects/menu', [ProjectController::class, 'menuProjects']);
+Route::get('projects/continuous', [ProjectController::class, 'continuousProjects']);
+
 Route::get('project/{id}', [ProjectController::class, 'project_details'])->name('projects.show');
 
 Route::get('campaign', [CampaignController::class, 'campaign']);
@@ -95,12 +100,10 @@ Route::get('init/request', [InitRequestController::class, 'init']);
 
 Route::get('link/{code}', [LinkController::class, 'link']);
 
-Route::middleware('auth:sanctum')->group(function () {
 
-    Route::get('carts/{id}', [CartController::class, 'projects']);
-    Route::post('carts', [CartController::class, 'add']);
-    Route::post('carts/{project}', [CartController::class, 'remove']);
-});
+Route::get('carts/{id}', [CartController::class, 'projects']);
+Route::post('carts', [CartController::class, 'add']);
+Route::post('carts/remove', [CartController::class, 'remove']);
 
 
 Route::get('menus', [MenuController::class, 'index']);
@@ -127,6 +130,7 @@ Route::apiResource('sliders', SliderController::class);
 Route::post('payment/create', [PaymentController::class, 'create']);
 Route::post('payment/check', [PaymentController::class, 'check']);
 Route::get('payment/verify', [PaymentController::class, 'callbackVerify'])->name('payment.verify');
+Route::get('myfatoorah/callback', [PaymentController::class, 'callback'])->name('payment.myfatoorah.callback');
 
 Route::get('payment', [PaymentController::class, 'index']);
 

@@ -26,7 +26,8 @@ class MyFatoorahPayment implements ProducePaymentInterface
 
         try {
 
-            $callbackURL = route('myfatoorah.callback');
+            // $callbackURL = route('myfatoorah.callback');
+            $callbackURL = route('payment.myfatoorah.callback');
 
             $data = [
                 'CustomerName' => $data['customer_name'],

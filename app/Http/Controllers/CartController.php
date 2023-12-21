@@ -7,6 +7,8 @@ use App\Models\Cart;
 use App\Models\CartProject;
 use App\Validation\CartProjectValidated;
 use Illuminate\Http\Request;
+use App\Http\Resources\CartProjectResource;
+
 
 class CartController extends BaseApiController
 {
@@ -18,7 +20,11 @@ class CartController extends BaseApiController
     public function projects(Request $request, $id)
     {
         $cart = $this->cartService->projects($request, $id);
-        return $this->return_success(__('cart.success'), $cart);
+        if($cart){
+            return CartProjectResource::make($cart);
+        }
+        return $this->return_success(__('cart.cart is empty'));
+
     }
 
     public function add(CartProjectValidated $request)
@@ -28,17 +34,17 @@ class CartController extends BaseApiController
         return $this->return_success(__('cart.added_successfully'), $cart);
     }
 
-    public function remove(Request $request, $projectId)
+    public function remove(Request $request)
     {
         $userId = auth()->user()?->id;
         // Get that latest cart for this session
+        $projectId = $request->input('project_id');
         if ($userId) {
             $cart = Cart::where('user_id', $userId)->latest()->first();
         } else {
-            $cart = Cart::where('session_id', $request->input('user_session'))->latest()->first();
+            $cart = Cart::where('session_id', $request->input('id'))->latest()->first();
         }
         if ($cart) {
-            $cart->delete();
             $project = CartProject::where('cart_id', $cart->id)
                 ->where('project_id', $projectId)
                 ->first();

@@ -19,18 +19,9 @@ class CartService implements CartServiceInterface
 
     public function projects($request, $id)
     {
-        $carts = Cart::where('user_id', $id)->orWhere('session_id', $id)->with('cartProjects')
-            ->get();
-            $data = [];
-            foreach ($carts as $cart){
+        return Cart::where('user_id', $id)->orWhere('session_id', $id)->with('cartProjects')
+            ->first();
 
-                $data[] = [
-                    'cart_id'=> $cart->id,
-                    'projects'=> $cart->cartProjects[0]?? '',
-                ];
-            }
-
-        return $data;
     }
 
     public function add($request)
@@ -71,7 +62,10 @@ class CartService implements CartServiceInterface
 
         if ($existingCartProject) {
             $existingCartProject->update(['amount' => $amount]);
+                $amounts = CartProject::where('cart_id',$cart->id)->sum('amount');
+                Cart::find($cart->id)->update(['total_amount' => $amounts]);
             return $existingCartProject;
+            
         } else {
             $data2 = [
                 'cart_id' => $cart->id,
@@ -95,7 +89,11 @@ class CartService implements CartServiceInterface
                     ]
                 );
             }
-            return CartProject::create($data2);
+
+            $cartProjects =  CartProject::create($data2);
+            $amounts = CartProject::where('cart_id',$cart->id)->sum('amount');
+            Cart::find($cart->id)->update(['total_amount' => $amounts]);
+            return $cartProjects;
         }
     }
 }

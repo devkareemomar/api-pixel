@@ -13,17 +13,25 @@ class CartProjectResource extends JsonResource
      * @return array<string, mixed>
      */
     public function toArray(Request $request): array
-    {
+    {   
+        $projects = [];
+
+            foreach($this->cartProjects as  $project){
+                $projects[] = [
+                    'project_id'      => $project->project_id ,
+                    'amount'          => $project->amount,
+                    'gifted_to_email' => $project->gifted_to_email,
+                    'gifted_to_phone' => $project->gifted_to_phone,
+                    'gifted_to_name'  => $project->gifted_to_name,
+                    'donor_comment'   => $project->donor_comment,
+                ];
+            }
+
         return [
-            'id' => $this->project->id,
-            'name' => $this->project->name ?? $this->project->project_name,
-            'sku' => $this->project->sku,
-            'slug' => $this->project->slug ?? $this->project->project_slug,
-            'status' => $this->project->status,
-            'short_description' => $this->project->short_description ?? $this->project->project_short_description,
-            'translation' => $this->project->getAllTranslation(),
-            'thumbnail' => $this->project->thumbnail ? config('app.dashboard') . $this->project->thumbnail : null,
-            'amount' => $this->amount,
+            'cart_id' => $this->id,
+            'total_amount' => $this->total_amount,
+            'projects' => $projects,
+
         ];
     }
 }

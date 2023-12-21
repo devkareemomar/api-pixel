@@ -6,7 +6,7 @@ use App\Models\CountryProject;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProjectAllResource extends JsonResource
+class ProjectBannerResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,13 +20,8 @@ class ProjectAllResource extends JsonResource
         return [
             'id' => $this->id,
             'main_image' => $this->main_image ? config('app.dashboard') . $this->main_image : null,
-            'video' => $this->video,
             'name' => $this->getDefaultAttribute('name') ,
             'slug' => $this->getDefaultAttribute('slug'),
-            'total_wanted' => number_format((float)$this->total_wanted, 0, '.', ','),
-            'total_collected' => number_format((float)$this->total_collected, 0, '.', ','),
-            'total_earned' => number_format((float)$this->total_earned, 0, '.', ','),
-            'earned_percentage' => min($this->earned_percentage, 100),
         ];
     }
 }
