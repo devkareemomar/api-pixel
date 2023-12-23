@@ -50,6 +50,8 @@ class CartController extends BaseApiController
                 ->first();
             $project?->delete();
         }
+        $amounts = CartProject::where('cart_id',$cart->id)->sum('amount');
+        Cart::find($cart->id)->update(['total_amount' => $amounts]);
 
         return response()->json(['message'=>__('cart.removed_successfully')]);
     }
