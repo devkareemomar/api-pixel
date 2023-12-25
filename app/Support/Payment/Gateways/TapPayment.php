@@ -80,7 +80,7 @@ class TapPayment implements ProducePaymentInterface
                 "Content-Type" => "application/json",
             ])->get('https://api.tap.company/v2/charges/' . $data['tap_id'])->json();
 
-            $order = Order::where('code', $response['reference']['order'])->first();
+            $order = Order::where('code', $response['reference']['order'])->with('orderProjects')->first();
 
             $payment = new Payment();
             $payment->order_id = $order->id;

@@ -22,12 +22,12 @@ class MyFatoorahPayment implements ProducePaymentInterface
 
     public function execute(array $data)
     {
-        $paymentType = isset($data['payment_type']) ? $data['payment_type'] : 'knet';
+        $paymentType = isset($data['payment_type']) ? $data['payment_type'] : '';
 
         try {
 
-            // $callbackURL = route('myfatoorah.callback');
-            $callbackURL = route('payment.myfatoorah.callback');
+            $callbackURL = route('myfatoorah.callback');
+            // $callbackURL = route('payment.myfatoorah.callback');
 
             $data = [
                 'CustomerName' => $data['customer_name'],
@@ -52,7 +52,7 @@ class MyFatoorahPayment implements ProducePaymentInterface
         }
     }
 
-    public function makePayment(array $data, $paymentType = 'knet')
+    public function makePayment(array $data, $paymentType = '')
     {
             switch ($paymentType) {
                 case 'knet':

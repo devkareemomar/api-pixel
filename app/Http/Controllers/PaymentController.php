@@ -73,15 +73,14 @@ class PaymentController extends Controller
                 ]);
             }
         }
-
         return $this->payment->makePayment([
-            'customer_name' => 'Unkown Customer',
+            'customer_name' => auth()->user()->name,
             'amount' => $amount,
-            'customer_email' => 'unkown@gmaill.com',
-            'customer_phone' => '123456789',
+            'customer_email' => auth()->user()->email,
+            'customer_phone' => auth()->user()->phone,
             'language' => config('app.local'),
             'order_id' => $orderNumber,
-            'payment_type' => $data['payment_type'],
+            'payment_type' => $data['payment_type'] ?? '',
         ]);
     }
 
@@ -119,7 +118,7 @@ class PaymentController extends Controller
     /**
      * Get MyFatoorah Payment Information
      * Provide the callback method with the paymentId
-     * 
+     *
      * @return Response
      */
     public function callback() {

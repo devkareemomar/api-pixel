@@ -83,7 +83,6 @@ class MyFatoorahController extends Controller
             $payment->amount = $response['data']['focusTransaction']->DueValue;
             $payment->metadata = collect($response['data'])->toJson();
             $payment->payment_method = 'MyFatoorah';
-
             if ($response['data']['InvoiceStatus'] == 'Paid') {
                 $order->status = Status::COMPLETED->value;
                 $order->save();

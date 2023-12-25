@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\PaymentCompleted;
+use App\Models\Project;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -23,7 +24,8 @@ class UpdateProjectDonations
     {
         $order = $event->order;
         foreach ($order->orderProjects as $orderProject) {
-            $project = $orderProject->project;
+
+            $project =Project::where('id', $orderProject->project_id)->first();
             $project->update([
                 'total_earned' => abs($project->total_earned + $orderProject->price),
             ]);
