@@ -23,11 +23,12 @@ class SignupValidated extends FormRequest
         $min = Setting::first();
         $min = $min->required_length ?? 5;
         $data = [
-            'name' => 'required|alpha|min:3',
+            'name' => 'required|min:3',
             'email' => 'required|email|unique:users,email',
-            'username' => 'nullable|alpha_dash|unique:users,username',
+            'username' => 'nullable|unique:users,username',
             'phone' => 'nullable|unique:users,phone|numeric|digits_between:8,12',
-            'password' => ['required', 'confirmed', 'min:' . $min, new PasswordValidationRule()],
+            'password' => ['required', 'confirmed'],
+            // 'password' => ['required', 'confirmed', 'min:' . $min, new PasswordValidationRule()],
         ];
         if (Setting::select('use_captcha_on_login')->first()->use_captcha_on_registration == 1) {
             $data += [
@@ -40,9 +41,9 @@ class SignupValidated extends FormRequest
     protected function signupSocial()
     {
         return [
-            'name' => 'required|alpha|min:3',
+            'name' => 'required|min:3',
             'email' => 'required|email|unique:users,email',
-            'username' => 'nullable|alpha_dash|unique:users,username',
+            'username' => 'nullable|unique:users,username',
             'phone' => 'nullable|unique:users,phone|numeric|digits_between:8,12',
             'facebook' => 'nullable',
             'twitter' => 'nullable',

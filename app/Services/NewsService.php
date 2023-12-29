@@ -28,7 +28,7 @@ class NewsService implements NewsInterface
         }
         return $this->news
             ->select('id', 'title', 'slug', 'description', 'short_description', 'image', 'views', 'created_at')
-            ->paginate($paginateNo);
+            ->paginate($request->input('per_page') ?? $paginateNo);
     }
 
     public function news_details($request, $news_id)
