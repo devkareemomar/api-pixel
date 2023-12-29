@@ -27,26 +27,34 @@ class ProjectController extends BaseApiController
         $currentDate = date('Y-m-d');
         $name = $request->input('name');
         $sort = $request->input('sort');
+        $project_id = $request->input('project_id');
 
-        
+
         $projects = Project::query()
             ->with(['category','languageProject'])
             ->where('visibility', '=', '0')
             ->where('hidden', '=', '0')
             ->where('active','=','1')
             ->whereDate('start_date', '<=', $currentDate)
-            ->whereDate('end_date', '>=', $currentDate); 
-            
+            ->whereDate('end_date', '>=', $currentDate);
+
             if ($name) {
                 $projects =  $projects->whereHas('languageProject', function ($query) use ($name){
                     $query->where('name', 'like', '%'.$name.'%');
                 });
             }
-            
+
+
+
+
             if ($sort) {
                 $projects = $projects->orderByRaw('ISNULL(projects.order) '.$sort.', projects.order '.$sort.'');
             }else{
                 $projects = $projects->orderByRaw('ISNULL(projects.order) asc, projects.order asc');
+            }
+
+            if ($project_id) {
+                $projects =  $projects->where('id',$project_id);
             }
 
             $projects = $projects->paginate($request->input('per_page') ?? 9);
@@ -95,7 +103,7 @@ class ProjectController extends BaseApiController
             ->get();
         return ProjectResource::collection($projects);
     }
-    
+
     public function allProjects()
     {
         $currentDate = date('Y-m-d');
@@ -106,7 +114,7 @@ class ProjectController extends BaseApiController
             ->where('hidden', '=', '0')
             ->where('active','=','1')
             ->whereDate('start_date', '<=', $currentDate)
-            ->whereDate('end_date', '>=', $currentDate) 
+            ->whereDate('end_date', '>=', $currentDate)
             ->orderByRaw('ISNULL(projects.order) asc, projects.order asc')
             ->orderBy('projects.updated_at', 'desc')
             ->limit(12)->get();
@@ -127,14 +135,14 @@ class ProjectController extends BaseApiController
             ->where('active','=','1')
             ->where('show_in_home_page',1)
             ->whereDate('start_date', '<=', $currentDate)
-            ->whereDate('end_date', '>=', $currentDate) 
+            ->whereDate('end_date', '>=', $currentDate)
             ->orderByRaw('ISNULL(projects.order) asc, projects.order asc')
             ->orderBy('projects.updated_at', 'desc')->get();
 
         return ProjectBannerResource::collection($projects);
 
     }
-    
+
 
     public function giftsProjects()
     {
@@ -146,7 +154,7 @@ class ProjectController extends BaseApiController
             ->where('active','=','1')
             ->where('is_gift',1)
             ->whereDate('start_date', '<=', $currentDate)
-            ->whereDate('end_date', '>=', $currentDate) 
+            ->whereDate('end_date', '>=', $currentDate)
             ->orderByRaw('ISNULL(projects.order) asc, projects.order asc')
             ->orderBy('projects.updated_at', 'desc')->get();
 
@@ -163,7 +171,7 @@ class ProjectController extends BaseApiController
             ->where('active','=','1')
             ->where('show_in_menu',1)
             ->whereDate('start_date', '<=', $currentDate)
-            ->whereDate('end_date', '>=', $currentDate) 
+            ->whereDate('end_date', '>=', $currentDate)
             ->orderByRaw('ISNULL(projects.order) asc, projects.order asc')
             ->orderBy('projects.updated_at', 'desc')->get();
 
@@ -181,14 +189,14 @@ class ProjectController extends BaseApiController
             ->where('active','=','1')
             ->where('is_continuous',1)
             ->whereDate('start_date', '<=', $currentDate)
-            ->whereDate('end_date', '>=', $currentDate) 
+            ->whereDate('end_date', '>=', $currentDate)
             ->orderByRaw('ISNULL(projects.order) asc, projects.order asc')
             ->orderBy('projects.updated_at', 'desc')->get();
 
         return ProjectMenuResource::collection($projects);
 
     }
-    
+
     public function stories()
     {
         $currentDate = date('Y-m-d');
