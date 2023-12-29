@@ -104,6 +104,7 @@ Route::get('link/{code}', [LinkController::class, 'link']);
 Route::get('carts/{id}', [CartController::class, 'projects']);
 Route::post('carts', [CartController::class, 'add']);
 Route::post('carts/remove', [CartController::class, 'remove']);
+Route::post('carts/removeAfterPayment', [CartController::class, 'removeCart']);
 
 
 Route::get('menus', [MenuController::class, 'index']);

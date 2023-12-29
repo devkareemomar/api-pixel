@@ -20,11 +20,10 @@ class CartController extends BaseApiController
     public function projects(Request $request, $id)
     {
         $cart = $this->cartService->projects($request, $id);
-        if($cart){
+        if ($cart) {
             return CartProjectResource::make($cart);
         }
         return $this->return_success(__('cart.cart is empty'));
-
     }
 
     public function add(CartProjectValidated $request)
@@ -50,9 +49,27 @@ class CartController extends BaseApiController
                 ->first();
             $project?->delete();
         }
-        $amounts = CartProject::where('cart_id',$cart->id)->sum('amount');
+        $amounts = CartProject::where('cart_id', $cart->id)->sum('amount');
         Cart::find($cart->id)->update(['total_amount' => $amounts]);
 
-        return response()->json(['message'=>__('cart.removed_successfully')]);
+        return response()->json(['message' => __('cart.removed_successfully')]);
+    }
+
+    public function removeCart(Request $request)
+    {
+        $userId = auth()->user()?->id;
+        // Get that latest cart for this session
+        if ($userId) {
+            $cart = Cart::where('user_id', $userId)->latest()->first();
+        } else {
+            $cart = Cart::where('session_id', $request->input('id'))->latest()->first();
+        }
+        if ($cart) {
+            CartProject::where('cart_id', $cart->id)
+                ->delete();
+        }
+        $cart->delete();
+
+        return response()->json(['message' => __('cart.removed_successfully')]);
     }
 }
