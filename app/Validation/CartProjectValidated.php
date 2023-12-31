@@ -14,7 +14,7 @@ class CartProjectValidated extends FormRequest
             'project_id' => ['required'],
             'amount' => ['required'],
             'recurring' => ['nullable', new Enum(type: RecurringEnum::class)],
-            'session_id' => ['sometimes'],
+            'session_id' => ['nullable'],
             'gifted_to_email' => 'nullable|string|max:150',
             'gifted_to_phone' => 'nullable|string|max:25',
             'gifted_to_name' => 'nullable|string|max:150',
