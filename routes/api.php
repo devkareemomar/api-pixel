@@ -128,9 +128,11 @@ Route::prefix('page-builder')->group(function () {
 Route::apiResource('sliders', SliderController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('payment/create', [PaymentController::class, 'create']);
-    Route::post('payment/check', [PaymentController::class, 'check']);
+
 });
+
+Route::post('payment/create', [PaymentController::class, 'create']);
+Route::post('payment/check', [PaymentController::class, 'check']);
 Route::get('payment/verify', [PaymentController::class, 'callbackVerify'])->name('payment.verify');
 
 Route::get('payment', [PaymentController::class, 'index']);
