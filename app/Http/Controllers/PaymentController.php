@@ -74,9 +74,9 @@ class PaymentController extends Controller
             }
         }
         return $this->payment->makePayment([
-            'customer_name' => auth()->user()->name ?? '',
+            'customer_name' => auth()->user()->name ?? 'New Customer',
             'amount' => $amount,
-            'customer_email' => auth()->user()->email ?? '',
+            'customer_email' => auth()->user()->email ?? 'email@example.com',
             'customer_phone' => auth()->user()->phone ?? '',
             'language' => config('app.local'),
             'order_id' => $orderNumber,
