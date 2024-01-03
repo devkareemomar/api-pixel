@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\CartProject;
 use App\Models\Link;
 use App\Models\Project;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -26,9 +27,9 @@ class CartService implements CartServiceInterface
 
     public function add($request)
     {
-        $userId = auth()->user()?->id;
+        $userId = $request->user_id;
         $project = Project::findOrFail($request->project_id);
-        $cart = $this->findOrCreateCart($userId, $request->user_session ?? $request->session_id);
+        $cart = $this->findOrCreateCart($userId, $request->user_session);
         $data = $request->only([
             'gifted_to_email',
             'gifted_to_phone',
@@ -42,6 +43,7 @@ class CartService implements CartServiceInterface
 
     private function findOrCreateCart($userId, $sessionId)
     {
+
         if ($userId) {
             return Cart::where('user_id', $userId)->firstOrCreate(['user_id' => $userId]);
         } elseif ($sessionId) {
@@ -65,7 +67,7 @@ class CartService implements CartServiceInterface
                 $amounts = CartProject::where('cart_id',$cart->id)->sum('amount');
                 Cart::find($cart->id)->update(['total_amount' => $amounts]);
             return $existingCartProject;
-            
+
         } else {
             $data2 = [
                 'cart_id' => $cart->id,
