@@ -7,6 +7,7 @@ use App\Http\Resources\ProjectResource;
 use App\Http\Resources\ProjectAllResource;
 use App\Http\Resources\ProjectBannerResource;
 use App\Http\Resources\ProjectMenuResource;
+use App\Http\Resources\ProjectZakatResource;
 use App\Interfaces\ProjectInterface;
 use App\Models\LanguageProject;
 use App\Models\Project;
@@ -223,5 +224,15 @@ class ProjectController extends BaseApiController
         return response()->json([
             'data' => $data,
         ], 200);
+    }
+
+
+    public function zakatProjects()
+    {
+
+        $projects = Project::query()
+            ->where('is_zakat_donation','!=','')->get();
+
+        return ProjectZakatResource::collection($projects);
     }
 }

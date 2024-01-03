@@ -87,6 +87,7 @@ Route::get('projects/stories', [ProjectController::class, 'stories']);
 Route::get('projects/gifts', [ProjectController::class, 'giftsProjects']);
 Route::get('projects/menu', [ProjectController::class, 'menuProjects']);
 Route::get('projects/continuous', [ProjectController::class, 'continuousProjects']);
+Route::get('projects/zakat', [ProjectController::class, 'zakatProjects']);
 
 Route::get('project/{id}', [ProjectController::class, 'project_details'])->name('projects.show');
 
