@@ -38,6 +38,7 @@ class RegistrationService implements RegistrationInterface
         $token = $user_data->createToken('auth_token')->plainTextToken;
         $data = [
             'token' => $token,
+            'id' => $user_data->id,
             'name' => $user_data->name,
             'email' => $user_data->email,
             'phone' => $user_data->phone,
