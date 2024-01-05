@@ -31,6 +31,7 @@ class SettingController extends Controller
             'meta_tags_footer',
             'application_name',
             'application_logo_image',
+            'mobile_logo_image',
             'dark_application_logo_image'
         )->first();
         return SettingResource::make($setting);

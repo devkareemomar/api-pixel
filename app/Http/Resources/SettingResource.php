@@ -29,8 +29,9 @@ class SettingResource extends JsonResource
             // 'meta_tags_body' => $this->meta_tags_body,
             // 'meta_tags_footer' => $this->meta_tags_footer,
             'application_name' => $this->application_name,
-            'application_logo_image' => $this->application_logo_image,
-            'dark_application_logo_image' => $this->dark_application_logo_image,
+            'application_logo_image' => config('app.dashboard').$this->application_logo_image,
+            'dark_application_logo_image' =>config('app.dashboard'). $this->dark_application_logo_image,
+            'mobile_logo_image' =>config('app.dashboard'). $this->mobile_logo_image,
         ];
     }
 }
