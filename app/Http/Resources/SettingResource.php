@@ -15,7 +15,7 @@ class SettingResource extends JsonResource
             'twitter' => $this->twitter,
             'instagram' => $this->instagram,
             'youtube' => $this->youtube,
-            'primary_color' => $this->primary_color,
+            'primary_color' => $this->color_scheme,
             'secondary_color' => $this->secondary_color,
             // 'shadow_transparency' => $this->shadow_transparency,
             // 'primary_button' => $this->primary_button,
