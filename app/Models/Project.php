@@ -112,17 +112,11 @@ class Project extends Model
         return $this->hasMany(Review::class, 'project_id', 'id');
     }
 
-    public function earnedPercentage(): Attribute
+    public function earnedPercentage()
     {
-        return Attribute::make(
-            get: function () {
-                if ($this->total_wanted == 0) {
-                    return 0;
-                }
+        $percentage =  number_format(($this->total_earned / $this->total_wanted) * 100, 0);
+             return ($percentage > 100) ? 100 : $percentage;
 
-                return number_format(($this->total_earned / $this->total_wanted) * 100, 0);
-            }
-        );
     }
 
     public function totalRemains(): Attribute
@@ -136,7 +130,7 @@ class Project extends Model
 
     public function getTotalRemainsAttribute()
     {
-        return (int)$this->total_wanted - (int)$this->total_earned;
+        return ((int)$this->total_wanted > (int)$this->total_earned)? (int)$this->total_wanted - (int)$this->total_earned : 0;
     }
 
     public function totalCollected(): Attribute
