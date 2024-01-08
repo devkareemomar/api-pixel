@@ -26,7 +26,8 @@ class ProjectAllResource extends JsonResource
             'total_wanted' => number_format((float)$this->total_wanted, 0, '.', ','),
             'total_collected' => number_format((float)$this->total_collected, 0, '.', ','),
             'total_earned' => number_format((float)$this->total_earned, 0, '.', ','),
-            'earned_percentage' => min($this->earned_percentage, 100),
+            'earned_percentage' => $this->earnedPercentage(),
+            'total_remains' => $this->getTotalRemainsAttribute(),
         ];
     }
 }
