@@ -114,7 +114,11 @@ class Project extends Model
 
     public function earnedPercentage()
     {
-        $percentage =  number_format(($this->total_earned / $this->total_wanted) * 100, 0);
+        $percentage = 0;
+        if($this->total_wanted > 0){
+
+            $percentage =  number_format(($this->total_earned / $this->total_wanted) * 100, 0);
+        }
              return ($percentage > 100) ? 100 : $percentage;
 
     }
