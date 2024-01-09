@@ -26,6 +26,16 @@ class ProjectAllResource extends JsonResource
                 $donation_available = 0;
             }
         }
+
+
+        $suggested = null; 
+        if(isset($this->suggested_values)){
+            foreach(json_decode($this->suggested_values,true) as $key => $value) {
+                
+                $suggested[] = ($this->is_full_unit == 1) ? ['lable' =>$key,'value' =>$value] : ['value' =>$value]; 
+            }
+        }
+
         return [
             'id' => $this->id,
             'main_image' => $this->main_image ? config('app.dashboard') . $this->main_image : null,
@@ -40,8 +50,7 @@ class ProjectAllResource extends JsonResource
             'donation_available' => (int)$donation_available,
 
             'is_full_unit' => (int)$this->is_full_unit,
-            'suggested_values' => isset($this->suggested_values) ?  json_decode($this->suggested_values,true) : null,
-
+            'suggested_values' => isset($this->suggested_values) ?  $suggested : null,
 
         ];
     }

@@ -108,7 +108,6 @@ class TapPayment implements ProducePaymentInterface
                 $payment->status = Status::FAILEd->value;
                 $payment->save();
             }
-            dd((env('FRONTEND_URL') . '?ref_id=' . $order->code));
             return redirect((env('FRONTEND_URL') . '?ref_id=' . $order->code));
         } catch (\Exception $e) {
             Log::error($e->getMessage());
