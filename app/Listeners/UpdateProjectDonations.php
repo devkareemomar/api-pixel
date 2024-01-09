@@ -24,11 +24,13 @@ class UpdateProjectDonations
     {
         $order = $event->order;
         foreach ($order->orderProjects as $orderProject) {
-
             $project =Project::where('id', $orderProject->project_id)->first();
-            $project->update([
-                'total_earned' => abs($project->total_earned + $orderProject->price),
-            ]);
+            if($project){
+                $project->update([
+                    'total_earned' => abs($project->total_earned + $orderProject->price),
+                ]);
+            }
+
         }
     }
 

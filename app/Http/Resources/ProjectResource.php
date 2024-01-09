@@ -15,6 +15,17 @@ class ProjectResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
+        $donation_available = 0;
+        if($this->donation_available == 1){
+            $donation_available = 1;
+
+            if($this->is_continuous == 1 && $this->getTotalRemainsAttribute() == 0){
+                $donation_available = 1;
+            }elseif($this->is_continuous != 1  && $this->getTotalRemainsAttribute() == 0){
+                $donation_available = 0;
+            }
+        }
         return [
             'id' => $this->id,
             'name' => $this->getDefaultAttribute('name') ,
@@ -34,7 +45,8 @@ class ProjectResource extends JsonResource
 
             'category' => $this->category->name ?? '',
             'short_description' => $this->getDefaultAttribute('short_description'),
-            'suggested_values' => explode(',',$this->suggested_values),
+            'is_full_unit' => (int)$this->is_full_unit,
+            'suggested_values' => isset($this->suggested_values) ?  json_decode($this->suggested_values,true) : null,
 
             'description' => $this->getDefaultAttribute('description'),
 
@@ -44,6 +56,9 @@ class ProjectResource extends JsonResource
             'show_donor_name' => (int)$this->show_donor_name,
             'donor_name_required' => (int)$this->donor_name_required,
             'show_donation_comment' => (int)$this->show_donation_comment,
+
+            'donation_available' => (int)$donation_available,
+
 
         ];
     }

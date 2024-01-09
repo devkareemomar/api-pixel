@@ -16,7 +16,16 @@ class ProjectAllResource extends JsonResource
     public function toArray(Request $request): array
     {
        
+        $donation_available = 0;
+        if($this->donation_available == 1){
+            $donation_available = 1;
 
+            if($this->is_continuous == 1 && $this->getTotalRemainsAttribute() == 0){
+                $donation_available = 1;
+            }elseif($this->is_continuous != 1  && $this->getTotalRemainsAttribute() == 0){
+                $donation_available = 0;
+            }
+        }
         return [
             'id' => $this->id,
             'main_image' => $this->main_image ? config('app.dashboard') . $this->main_image : null,
@@ -28,6 +37,12 @@ class ProjectAllResource extends JsonResource
             'total_earned' => number_format((float)$this->total_earned, 0, '.', ','),
             'earned_percentage' => $this->earnedPercentage(),
             'total_remains' => $this->getTotalRemainsAttribute(),
+            'donation_available' => (int)$donation_available,
+
+            'is_full_unit' => (int)$this->is_full_unit,
+            'suggested_values' => isset($this->suggested_values) ?  json_decode($this->suggested_values,true) : null,
+
+
         ];
     }
 }
