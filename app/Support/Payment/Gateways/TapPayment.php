@@ -81,7 +81,6 @@ class TapPayment implements ProducePaymentInterface
             ])->get('https://api.tap.company/v2/charges/' . $data['tap_id'])->json();
 
             $order = Order::where('code', $response['reference']['order'])->with('orderProjects')->first();
-
             $payment = new Payment();
             $payment->order_id = $order->id;
             $payment->user_id = $order->user_id;
@@ -108,6 +107,7 @@ class TapPayment implements ProducePaymentInterface
                 $payment->status = Status::FAILEd->value;
                 $payment->save();
             }
+
             return redirect((env('FRONTEND_URL') . '?ref_id=' . $order->code));
         } catch (\Exception $e) {
             Log::error($e->getMessage());

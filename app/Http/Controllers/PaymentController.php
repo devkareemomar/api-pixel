@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PaymentRequest;
 use App\Models\Gift;
+use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderProject;
 use App\Models\PaymentGateway;
@@ -34,6 +35,7 @@ class PaymentController extends Controller
     {
 
         $data = $request->validated();
+        $user = User::find($request->user_id);
         // Create Order
         $latestOrder = Order::latest()->first();
         $orderNumber = str_pad($latestOrder ? $latestOrder->id : 0 + 1, 8, "0", STR_PAD_LEFT);
@@ -47,7 +49,7 @@ class PaymentController extends Controller
             'code' => $orderNumber,
             'amount' => $amount,
             'sub_total' => $amount,
-            'user_id' => auth('sanctum')->id() ? auth('sanctum')->id() : null,
+            'user_id' => $user->id ??  null,
             'status' => Status::PENDING->value,
         ]);
 
@@ -74,10 +76,10 @@ class PaymentController extends Controller
             }
         }
         return $this->payment->makePayment([
-            'customer_name' => auth()->user()->name ?? 'New Customer',
+            'customer_name' => $user->name ?? 'New Customer',
             'amount' => $amount,
-            'customer_email' => auth()->user()->email ?? 'email@example.com',
-            'customer_phone' => auth()->user()->phone ?? '',
+            'customer_email' => $user->email ?? 'email@example.com',
+            'customer_phone' => $user->phone ?? '',
             'language' => config('app.local'),
             'order_id' => $orderNumber,
             'payment_type' => $data['payment_type'] ?? '',
