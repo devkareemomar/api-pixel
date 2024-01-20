@@ -10,7 +10,7 @@ class FormBuilderRequest extends FormRequest
     {
         return [
             'national_id' => ['required', 'numeric'],
-            'data' => ['required', 'json'],
+            'data' => ['required', 'array'],
         ];
     }
 }

@@ -50,6 +50,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('setDataForm/{form_id}', [FormController::class, 'setDataForm']);
 Route::get('getFormStatus/{order_number}', [FormController::class, 'getFormStatus']);
 Route::get('getDataForm/{form_id}', [FormController::class, 'getDataForm']);
+Route::get('getListDataForm', [FormController::class, 'getListDataForm']);
 
 
 
