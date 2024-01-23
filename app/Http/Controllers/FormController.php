@@ -14,50 +14,61 @@ class FormController extends BaseApiController
 {
     public function getDataForm($form_id)
     {
-        $form=FormBuilder::findOrFail($form_id);
+        $form = FormBuilder::findOrFail($form_id);
 
         return  FormResource::make($form);
     }
 
     public function getListDataForm()
     {
-        $forms=FormBuilder::where('active',1)->get();
+        $forms = FormBuilder::where('active', 1)->get();
 
         return  FormResourceBrief::collection($forms);
     }
 
     public function setDataForm(FormBuilderRequest $request, $form_id)
     {
-        $form_data= $request->validated();
-        if (FormBuilderData::where('form_builder_id',$form_id)->where('national_id',$form_data['national_id'])->first()){
+        $form_data = $request->validated();
+        if (FormBuilderData::where('form_builder_id', $form_id)->where('national_id', $form_data['national_id'])->first()) {
             return $this->return_fail(__('This National ID already exists'), []);
         }
-        foreach($form_data['data']  as $key => $data){
-            if($data['type'] == 'file'){
+        $form_data['data'] =  $form_data;
+
+        foreach ($form_data['data']  as $key => $data) {
+            if ($data['type'] == 'file') {
                 $form_data['data'][$key]['value'] = $this->handleFileUpload($data['value'], 'case_files');
             }
         }
-        $form=FormBuilderData::create([
-            'form_builder_id'=>$form_id,
-            'national_id'=>$form_data['national_id'],
-            'data'=> json_encode($form_data['data']),
-            'status'=>"Under review",
+        $form = FormBuilderData::create([
+            'form_builder_id' => $form_id,
+            'national_id' => $form_data['national_id'],
+            'data' => json_encode($form_data['data']),
+            'status' => "Under review",
         ]);
-        return response()->json( ["order_number"=>$form->id]);
+        return response()->json(["order_number" => $form->id]);
     }
 
 
     public function getFormStatus($order_number)
     {
 
-        $form = FormBuilderData::where('id',$order_number)->first();
+        $form = FormBuilderData::where('id', $order_number)->first();
         return  FormStatusResource::make($form);
     }
 
     public function handleFileUpload($file, $storagePath)
     {
         if (isset($file)) {
-            return $file->store($storagePath, 'public');
+            $imageData = base64_decode($file);
+
+            $prefix = date('YmdHis'); // You can customize the prefix if needed
+            $uniqueId = uniqid();
+            $randomString = md5($uniqueId . rand(0, 1000)); // Adding some randomness
+
+            $filename = $prefix . '_' . $randomString . '.png';
+            file_put_contents(storage_path("$storagePath/$filename"), $imageData);
+
+            return "storage/$storagePath/$filename";
         }
 
         return null;
