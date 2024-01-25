@@ -8,7 +8,6 @@ use App\Http\Resources\FormResourceBrief;
 use App\Http\Resources\FormStatusResource;
 use App\Models\FormBuilder;
 use App\Models\FormBuilderData;
-use Illuminate\Http\Request;
 
 class FormController extends BaseApiController
 {
@@ -51,9 +50,14 @@ class FormController extends BaseApiController
 
     public function getFormStatus($order_number)
     {
-
         $form = FormBuilderData::where('id', $order_number)->first();
         return  FormStatusResource::make($form);
+    }
+
+    public function getFormStatusList($national_id)
+    {
+        $formsData = FormBuilderData::where('national_id', $national_id)->get();
+        return  FormStatusResource::collection($formsData);
     }
 
     public function handleFileUpload($file, $storagePath)

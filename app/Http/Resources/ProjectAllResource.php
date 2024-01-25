@@ -29,7 +29,7 @@ class ProjectAllResource extends JsonResource
 
 
         $suggested = null; 
-        if(isset($this->suggested_values)){
+        if(isset($this->suggested_values) && $this->suggested_values != ""){
             foreach(json_decode($this->suggested_values,true) as $key => $value) {
                 
                 $suggested[] = ($this->is_full_unit == 1) ? ['lable' =>$key,'value' =>$value] : ['value' =>$value]; 
@@ -48,7 +48,6 @@ class ProjectAllResource extends JsonResource
             'earned_percentage' => $this->earnedPercentage(),
             'total_remains' => $this->getTotalRemainsAttribute(),
             'donation_available' => (int)$donation_available,
-
             'is_full_unit' => (int)$this->is_full_unit,
             'suggested_values' => isset($this->suggested_values) ?  $suggested : null,
 

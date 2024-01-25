@@ -15,9 +15,10 @@ class FormStatusResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'status'      => $this->status,
-            'price'       => $this->price,
-            'checks_date' => $this->checks_date,
+            'order_number'     => $this->id,
+            'status'           => $this->status,
+            'price'            => $this->price,
+            'checks_date'      => $this->checks_date,
         ];
     }
 }

@@ -183,6 +183,7 @@ class RegistrationService implements RegistrationInterface
         if (!isset($input['username'])) {
             $input['username'] = $input['email'];
         }
+
         $user_data = $this->user->create($input);
         if (empty($user_data)) {
             return $data;
