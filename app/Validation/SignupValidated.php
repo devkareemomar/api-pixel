@@ -41,7 +41,7 @@ class SignupValidated extends FormRequest
     protected function signupSocial()
     {
         return [
-            'name' => 'required|min:3',
+            'name' => 'required',
             'email' => 'required|email',
             'username' => 'nullable',
             'phone' => 'nullable|numeric|digits_between:8,12',
