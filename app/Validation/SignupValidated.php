@@ -42,9 +42,9 @@ class SignupValidated extends FormRequest
     {
         return [
             'name' => 'required|min:3',
-            'email' => 'required|email|unique:users,email',
-            'username' => 'nullable|unique:users,username',
-            'phone' => 'nullable|unique:users,phone|numeric|digits_between:8,12',
+            'email' => 'required|email',
+            'username' => 'nullable',
+            'phone' => 'nullable,phone|numeric|digits_between:8,12',
             'token' => 'required',
             'facebook' => 'nullable',
             'twitter' => 'nullable',
