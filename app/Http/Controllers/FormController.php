@@ -43,7 +43,7 @@ class FormController extends BaseApiController
             'data' => json_encode($form_data['data']),
             'status' => "Under review",
         ]);
-        return response()->json(["order_number" => $form->id]);
+        return response()->json(["data" => ["message" => __('Case Create successfully'),"order_number" => $form->id]]);
     }
 
 
