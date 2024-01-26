@@ -16,6 +16,8 @@ class FormStatusResource extends JsonResource
     {
         return [
             'order_number'     => $this->id,
+            'status_name' => $this->form?->status_name,
+            'project_name' => $this->form?->project?->name,
             'status'           => $this->status,
             'price'            => $this->price,
             'checks_date'      => $this->checks_date,

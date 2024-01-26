@@ -55,7 +55,8 @@ class FormController extends BaseApiController
 
     public function getFormStatusList($national_id)
     {
-        $formsData = FormBuilderData::where('national_id', $national_id)->get();
+        $formsData = FormBuilderData::with('form')->where('national_id', $national_id)->get();
+
         return  FormStatusResource::collection($formsData);
     }
 

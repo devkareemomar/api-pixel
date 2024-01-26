@@ -14,4 +14,9 @@ class FormBuilderData extends Model
     protected $fillable=[
         'form_builder_id','price','checks_date','status','national_id','data'
     ];
+
+    public function form()
+    {
+        return $this->belongsTo(FormBuilder::class,'form_builder_id');
+    }
 }
