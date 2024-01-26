@@ -79,7 +79,7 @@ class RegistrationService implements RegistrationInterface
         //     }
         // );
 
-        $user =  User::where('id',auth()->user()->id)->update([
+        $user =  User::where('id', auth()->user()->id)->update([
             'password' => Hash::make($request->password)
         ]);
 
@@ -131,7 +131,6 @@ class RegistrationService implements RegistrationInterface
         } else {
             return self::returnData($user_data);
         }
-
     }
 
     protected function session_data($request)
@@ -173,8 +172,10 @@ class RegistrationService implements RegistrationInterface
         $tokenID = $request['token'];
         if ($socialType == 'facebook') {
             $input['facebook'] = $tokenID;
+            $user_data = $this->user->where('facebook', $tokenID)->first();
         } elseif ($socialType == 'google') {
             $input['google'] = $tokenID;
+            $user_data = $this->user->where('google', $tokenID)->first();
         } elseif ($socialType == 'twitter') {
             $input['twitter'] = $tokenID;
         } elseif ($socialType == 'apple') {
@@ -184,7 +185,10 @@ class RegistrationService implements RegistrationInterface
             $input['username'] = $input['email'];
         }
 
-        $user_data = $this->user->create($input);
+        if(!$user_data){
+            $user_data = $this->user->create($input);
+        }
+
         if (empty($user_data)) {
             return $data;
         }
@@ -193,6 +197,5 @@ class RegistrationService implements RegistrationInterface
         event(new NotificationEvent($user_data->id, 'new_user'));
 
         return self::returnData($user_data);
-
     }
 }

@@ -64,6 +64,7 @@ class FormController extends BaseApiController
     {
         if (isset($file)) {
             $imageData = base64_decode($file);
+            dd($file);
 
             $prefix = date('YmdHis'); // You can customize the prefix if needed
             $uniqueId = uniqid();
