@@ -44,7 +44,7 @@ class SignupValidated extends FormRequest
             'name' => 'required|min:3',
             'email' => 'required|email',
             'username' => 'nullable',
-            'phone' => 'nullable,phone|numeric|digits_between:8,12',
+            'phone' => 'nullable|numeric|digits_between:8,12',
             'token' => 'required',
             'facebook' => 'nullable',
             'twitter' => 'nullable',
