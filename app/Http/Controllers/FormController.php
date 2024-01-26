@@ -31,7 +31,6 @@ class FormController extends BaseApiController
         if (FormBuilderData::where('form_builder_id', $form_id)->where('national_id', $form_data['national_id'])->first()) {
             return $this->return_fail(__('This National ID already exists'), []);
         }
-        $form_data['data'] =  $form_data;
 
         foreach ($form_data['data']  as $key => $data) {
             if ($data['type'] == 'file') {
@@ -70,7 +69,14 @@ class FormController extends BaseApiController
             $randomString = md5($uniqueId . rand(0, 1000)); // Adding some randomness
 
             $filename = $prefix . '_' . $randomString . '.png';
-            file_put_contents(storage_path("$storagePath/$filename"), $imageData);
+
+            // Ensure the directory exists before attempting to save the file
+            $directory = storage_path($storagePath);
+            if (!file_exists($directory)) {
+                mkdir($directory, 0755, true); // create directory with permission 0755
+            }
+
+            file_put_contents("$directory/$filename", $imageData);
 
             return "storage/$storagePath/$filename";
         }
