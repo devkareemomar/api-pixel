@@ -41,7 +41,6 @@ use App\Http\Controllers\FormController;
 */
 
 Route::post('forgot/email', [RegistrationController::class, 'sendResetLinkEmail']);
-Route::post('password/reset', [RegistrationController::class, 'reset'])->name('password.reset');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -73,6 +72,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('password', PasswordUpdateController::class);
     Route::get('/donations', [DonationController::class, 'index'])->name('donations.index');
     Route::post('logout', [RegistrationController::class, 'logout']);
+    Route::post('password/reset', [RegistrationController::class, 'reset'])->name('password.reset');
 });
 
 Route::post('login', [RegistrationController::class, 'login']);
@@ -131,7 +131,6 @@ Route::prefix('page-builder')->group(function () {
 Route::apiResource('sliders', SliderController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
-
 });
 
 Route::post('payment/create', [PaymentController::class, 'create']);

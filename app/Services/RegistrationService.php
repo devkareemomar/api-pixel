@@ -62,7 +62,7 @@ class RegistrationService implements RegistrationInterface
     {
         $request->validate([
             'email' => 'required|email',
-            'token' => 'required|string',
+            // 'token' => 'required|string',
             'password' => 'required|min:8|confirmed',
         ]);
 
@@ -79,7 +79,7 @@ class RegistrationService implements RegistrationInterface
         //     }
         // );
 
-        $user =  User::where('email',$request->email)->update([
+        $user =  User::where('id',auth()->user()->id)->update([
             'password' => Hash::make($request->password)
         ]);
 
