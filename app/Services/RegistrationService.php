@@ -172,10 +172,8 @@ class RegistrationService implements RegistrationInterface
         $tokenID = $request['token'];
         if ($socialType == 'facebook') {
             $input['facebook'] = $tokenID;
-            $user_data = $this->user->where('facebook', $tokenID)->first();
         } elseif ($socialType == 'google') {
             $input['google'] = $tokenID;
-            $user_data = $this->user->where('google', $tokenID)->first();
         } elseif ($socialType == 'twitter') {
             $input['twitter'] = $tokenID;
         } elseif ($socialType == 'apple') {
@@ -184,6 +182,7 @@ class RegistrationService implements RegistrationInterface
         if (!isset($input['username'])) {
             $input['username'] = $input['email'];
         }
+        $user_data = $this->user->where('email', $input['email'])->first();
 
         if(!$user_data){
             $user_data = $this->user->create($input);
