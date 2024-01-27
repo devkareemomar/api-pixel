@@ -98,10 +98,8 @@ class RegistrationService implements RegistrationInterface
         $data = [];
         $userName_or_Email = $request['user'];
         $password = $request['password'];
-        $user_data = $this->user->where('username', $userName_or_Email)->first();
-        if (empty($user_data)) {
-            $user_data = $this->user->where('email', $userName_or_Email)->first();
-        }
+        // $user_data = $this->user->where('username', $userName_or_Email)->first();
+        $user_data = $this->user->where('email', $userName_or_Email)->first();
         if (empty($user_data)) {
             return $data;
         }
