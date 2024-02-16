@@ -2,10 +2,10 @@
 
 namespace App\Enums;
 
-enum RecurringEnum: int
+enum RecurringEnum: string
 {
-    case Daily = 1;
-    case Weekly = 2;
-    case Monthly = 3;
-    case Yearly = 4;
+    case Daily   = 'daily';
+    case Weekly  = 'weekly';
+    case Monthly = 'monthly';
+    case Yearly  =  'yearly';
 }

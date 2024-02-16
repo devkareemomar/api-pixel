@@ -36,6 +36,9 @@ class CartService implements CartServiceInterface
             'gifted_to_name',
             'code',
             'recurring',
+            'recurring_type',
+            'recurring_start_date',
+            'recurring_end_date',
             'donor_comment'
         ]);
         return $this->createOrUpdateCartProject($cart, $project, $request->amount, $data);
@@ -67,17 +70,19 @@ class CartService implements CartServiceInterface
                 $amounts = CartProject::where('cart_id',$cart->id)->sum('amount');
                 Cart::find($cart->id)->update(['total_amount' => $amounts]);
             return $existingCartProject;
-
         } else {
             $data2 = [
-                'cart_id' => $cart->id,
-                'project_id' => $project->id,
-                'amount' => $amount,
-                'recurring' => $data['recurring'] ?? null,
-                'gifted_to_email' => $data['gifted_to_email'] ?? null,
-                'gifted_to_phone' => $data['gifted_to_phone'] ?? null,
-                'gifted_to_name' => $data['gifted_to_name'] ?? null,
-                'donor_comment' => $data['donor_comment'] ?? null,
+                'cart_id'              => $cart->id,
+                'project_id'           => $project->id,
+                'amount'               => $amount,
+                'recurring'            => $data['recurring'] ?? null,
+                'recurring_type'       => $data['recurring_type'] ?? null,
+                'recurring_start_date' => $data['recurring_start_date'] ?? null,
+                'recurring_end_date'   => $data['recurring_end_date'] ?? null,
+                'gifted_to_email'      => $data['gifted_to_email'] ?? null,
+                'gifted_to_phone'      => $data['gifted_to_phone'] ?? null,
+                'gifted_to_name'       => $data['gifted_to_name'] ?? null,
+                'donor_comment'        => $data['donor_comment'] ?? null,
             ];
 //            if($project->is_gifted) {
 //                $data2['gifted_to_email'] = $data['gifted_to_email'];

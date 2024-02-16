@@ -11,7 +11,12 @@ class OrderProject extends Model
     use HasFactory;
 
 
-    protected $fillable = ['order_id', 'project_id', 'qty', 'price', 'tax_amount', 'created_at', 'updated_at'];
+    protected $fillable = ['order_id', 'project_id', 'qty', 'price', 'tax_amount',
+    'recurring',
+    'recurring_type',
+    'recurring_start_date',
+    'recurring_end_date',
+    'created_at', 'updated_at'];
 
     public function order()
     {

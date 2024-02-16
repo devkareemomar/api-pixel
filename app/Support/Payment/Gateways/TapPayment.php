@@ -9,11 +9,19 @@ use App\Support\Payment\Enum\Status;
 use App\Support\Payment\Interfaces\ProducePaymentInterface;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use App\Models\PaymentGateway;
 
 
 class TapPayment implements ProducePaymentInterface
 {
+    public $secret_key;
+     
+    public function __construct()
+    {
+        $tapPayment = PaymentGateway::where('name', 'tap')->first();
 
+        $this->secret_key = $tapPayment->secret_key;
+    }
     public function execute(array $data)
     {
         return $this->makePayment($data);
@@ -25,7 +33,7 @@ class TapPayment implements ProducePaymentInterface
         $paymentType = $data['payment_type'] == 'knet' ? 'src_kw.knet' : 'src_card';
 
         $response = Http::withHeaders([
-            "authorization" => "Bearer " . env('TAP_SECRET_KEY'),
+            "authorization" => "Bearer " . $this->secret_key,
             "Content-Type" => "application/json",
             'lang_code' => $data['language'],
         ])->post('https://api.tap.company/v2/charges', [
@@ -76,7 +84,7 @@ class TapPayment implements ProducePaymentInterface
     {
         try {
             $response = Http::withHeaders([
-                "Authorization" => "Bearer " . env('TAP_SECRET_KEY'),
+                "Authorization" => "Bearer " . $this->secret_key,
                 "Content-Type" => "application/json",
             ])->get('https://api.tap.company/v2/charges/' . $data['tap_id'])->json();
 

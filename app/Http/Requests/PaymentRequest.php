@@ -17,8 +17,8 @@ class PaymentRequest extends FormRequest
     {
         return [
 //            'cart' => 'required|array',
-            'cart.*.project_id' => ['required', 'numeric', 'exists:projects,id'],
-            'cart.*.amount'     => ['required', 'numeric', 'min:1'],
+            // 'cart.*.project_id' => ['required', 'numeric', 'exists:projects,id'],
+            // 'cart.*.amount'     => ['required', 'numeric', 'min:1'],
             'payment_type'      => ['nullable'],
             'user_id'           => ['required'],
         ];

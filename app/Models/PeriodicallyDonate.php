@@ -2,31 +2,35 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class CartProject extends Model
+class PeriodicallyDonate extends Model
 {
-
-    protected $table = 'cart_project';
+    use HasFactory;
 
     protected $fillable = [
-        'cart_id',
         'project_id',
-        'amount',
-        'gifted_to_email',
-        'gifted_to_phone',
-        'gifted_to_name',
+        'user_id',
+        'payment_type',
         'recurring',
         'recurring_type',
         'recurring_start_date',
         'recurring_end_date',
-        'donor_comment',
+        'amount',
     ];
+
+
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
 
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
     }
-
 }

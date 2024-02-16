@@ -6,6 +6,7 @@ use App\Support\Payment\Interfaces\ProducePaymentInterface;
 use App\Support\Payment\Traits\PaymentErrorTrait;
 use Exception;
 use MyFatoorah\Library\PaymentMyfatoorahApiV2;
+use App\Models\PaymentGateway;
 
 class MyFatoorahPayment implements ProducePaymentInterface
 {
@@ -16,7 +17,9 @@ class MyFatoorahPayment implements ProducePaymentInterface
 
     public function __construct()
     {
-        $this->paymentObj = new PaymentMyfatoorahApiV2(config('myfatoorah.api_key'), config('myfatoorah.country_iso'), config('myfatoorah.test_mode'));
+        $myfatorahPayment = PaymentGateway::where('name', 'myfatorah')->first();
+        $api_key = $myfatorahPayment->api_key ?? config('myfatoorah.api_key');
+        $this->paymentObj = new PaymentMyfatoorahApiV2($api_key, config('myfatoorah.country_iso'), config('myfatoorah.test_mode'));
     }
 
 
