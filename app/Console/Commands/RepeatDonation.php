@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use App\Models\PeriodicallyDonate;
 use App\Http\Controllers\PaymentController;
+use App\Mail\DonationPaymentMail;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 
 class RepeatDonation extends Command
 {
@@ -32,37 +35,32 @@ class RepeatDonation extends Command
         $currentDate = Carbon::now();
 
         $periodicallyDonates = PeriodicallyDonate::where('recurring_start_date', '<=', $currentDate)
-        ->where('recurring_end_date', '>=', $currentDate)
-        ->where(function ($query) use ($currentDate) {
-            $query->where(function ($q) use ($currentDate) {
-                $q->where('recurring', 'daily');
+            ->where('recurring_end_date', '>=', $currentDate)
+            ->where(function ($query) use ($currentDate) {
+                $query->where(function ($q) use ($currentDate) {
+                    $q->where('recurring', 'daily');
+                })
+                    ->orWhere(function ($q) use ($currentDate) {
+                        $q->where('recurring', 'monthly')
+                            ->whereDay('recurring_start_date', $currentDate->day);
+                    })
+                    ->orWhere(function ($q) use ($currentDate) {
+                        $q->where('recurring', 'weekly')
+                            ->whereRaw("DAYOFWEEK(recurring_start_date) = ?", [$currentDate->dayOfWeek]);
+                    });
             })
-            ->orWhere(function ($q) use ($currentDate) {
-                $q->where('recurring', 'monthly')
-                ->whereDay('recurring_start_date', $currentDate->day);
-            })
-            ->orWhere(function ($q) use ($currentDate) {
-                $q->where('recurring', 'weekly')
-                ->whereRaw("DAYOFWEEK(recurring_start_date) = ?", [$currentDate->dayOfWeek]);
-            });
-        })
-        ->get();
+            ->get();
 
-        foreach($periodicallyDonates as $donate){
+        foreach ($periodicallyDonates as $donate) {
             $payment =  (new PaymentController)->createPaymentForPeriodicallyDonate($donate);
-            dd($payment['data']['invoice_url']);
+            Mail::to($donate->user->email)
+                ->send(new DonationPaymentMail($payment['data']['invoice_url']));
         }
 
 
-    dd($periodicallyDonates);
 
-        Log::info('Check for repeat donations command executed successfully.');
+        // Log::info('Check for repeat donations command executed successfully.');
 
         $this->info('Check Repeat Donation successfully!');
-
     }
-
-
-
-
 }

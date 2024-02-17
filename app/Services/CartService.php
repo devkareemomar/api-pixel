@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\CartProject;
 use App\Models\Link;
 use App\Models\Project;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -71,6 +72,13 @@ class CartService implements CartServiceInterface
                 Cart::find($cart->id)->update(['total_amount' => $amounts]);
             return $existingCartProject;
         } else {
+
+            if($data['recurring_type'] > 0){
+                $date = Carbon::now();
+                $date->addMonths($data['recurring_type']);
+                $data['recurring_start_date'] = Carbon::now();
+                $data['recurring_end_date'] =  $date->toDateString();
+            }
             $data2 = [
                 'cart_id'              => $cart->id,
                 'project_id'           => $project->id,
