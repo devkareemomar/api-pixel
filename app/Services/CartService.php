@@ -72,8 +72,7 @@ class CartService implements CartServiceInterface
                 Cart::find($cart->id)->update(['total_amount' => $amounts]);
             return $existingCartProject;
         } else {
-
-            if($data['recurring_type'] > 0){
+            if($data['recurring_type'] ?? 0 > 0){
                 $date = Carbon::now();
                 $date->addMonths($data['recurring_type']);
                 $data['recurring_start_date'] = Carbon::now();
