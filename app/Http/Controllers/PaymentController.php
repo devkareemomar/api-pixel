@@ -79,8 +79,8 @@ class PaymentController extends Controller
                     'qty'     => 1,
                     'price'   =>  $cart->amount,
                     'name'    =>  $cart->gifted_to_name ?? null,
-                    'email'   =>  $cart->gifted_to_phone ?? null,
-                    'phone'   =>  $cart->gifted_to_email ?? null,
+                    'email'   =>  $cart->gifted_to_email ?? null,
+                    'phone'   =>  $cart->gifted_to_phone ?? null,
                     'comment' =>  $cart->donor_comment ??null,
                 ]);
 
