@@ -97,7 +97,7 @@ class TapPayment implements ProducePaymentInterface
             $payment->amount = $response['amount'];
             $payment->metadata = collect($response)->toJson();
             $payment->payment_method = 'Tap';
-
+            
             if (isset($response['status']) && $response['status'] == "CAPTURED") {
 
                 $order->status = Status::COMPLETED->value;
@@ -105,9 +105,7 @@ class TapPayment implements ProducePaymentInterface
 
                 $payment->status = Status::COMPLETED->value;
                 $payment->save();
-
                 PaymentCompleted::dispatch($order);
-
             } else {
                 $order->status = Status::FAILEd->value;
                 $order->save();

@@ -15,12 +15,14 @@ class GiftRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'project_id' => 'required|exists:projects,id',
-            'sender_name' => 'nullable|string',
-            'sender_email' => 'nullable|email',
-            'recipient_name' => 'required|string',
+            'project_id'      => 'required|exists:projects,id',
+            'template'        => 'required|image|mimes:png,jpg,jpeg,webp',
+            'sender_name'     => 'required|string',
+            'sender_email'    => 'required|email',
+            'recipient_name'  => 'required|string',
             'recipient_email' => 'required|email',
-            'price' => 'required|numeric'
+            'price'           => 'required|numeric',
+            'payment_type'    => 'required',
         ];
     }
 }

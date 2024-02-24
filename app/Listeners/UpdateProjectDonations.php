@@ -6,6 +6,9 @@ use App\Events\PaymentCompleted;
 use App\Models\Project;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use App\Models\Gift;
+use App\Mail\GiftMail;
+use Illuminate\Support\Facades\Mail;
 
 class UpdateProjectDonations
 {
@@ -29,7 +32,14 @@ class UpdateProjectDonations
                 $project->update([
                     'total_earned' => abs($project->total_earned + $orderProject->price),
                 ]);
+
+                if($orderProject->is_gift){
+                    $gift = Gift::where('order_project_id', $orderProject->id)->first();
+                    Mail::to($gift->recipient_email)
+                    ->send(new GiftMail($gift));
+                }
             }
+           
 
         }
     }
