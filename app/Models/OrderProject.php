@@ -16,7 +16,7 @@ class OrderProject extends Model
     'recurring_type',
     'recurring_start_date',
     'recurring_end_date',
-    'created_at', 'updated_at'];
+    'created_at', 'updated_at','name','email','phone','comment'];
 
     public function order()
     {

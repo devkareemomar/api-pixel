@@ -64,9 +64,9 @@ class PaymentController extends Controller
                 'code' => $orderNumber,
                 'amount' => $amount,
                 'sub_total' => $amount,
-                'name' =>  $user->name ?? '',
-                'email' =>  $user->email ?? '',
-                'phone' =>  $user->phone ?? '',
+                'name' =>  $user->name ?? null,
+                'email' =>  $user->email ?? null,
+                'phone' =>  $user->phone ?? null,
                 'payment_type' => $data['payment_type'] ?? '',
                 'user_id' => $user->id ??  null,
                 'status' => Status::PENDING->value,
@@ -74,10 +74,14 @@ class PaymentController extends Controller
 
             foreach ($cart->cartProjects as $cart) {
                 OrderProject::create([
-                    'order_id' => $order->id,
+                    'order_id'   => $order->id,
                     'project_id' => $cart->project_id,
-                    'qty' => 1,
-                    'price' => $cart->amount,
+                    'qty'     => 1,
+                    'price'   =>  $cart->amount,
+                    'name'    =>  $cart->gifted_to_name ?? null,
+                    'email'   =>  $cart->gifted_to_phone ?? null,
+                    'phone'   =>  $cart->gifted_to_email ?? null,
+                    'comment' =>  $cart->donor_comment ??null,
                 ]);
 
                 $project = Project::find($cart->project_id);

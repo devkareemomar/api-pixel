@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\BaseApiController;
 use App\Http\Requests\GiftRequest;
 use App\Models\Gift;
+use App\Models\GiftTemplate;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\GiftTemplateResource;
 
 class GiftController extends BaseApiController
 {
@@ -32,4 +34,11 @@ class GiftController extends BaseApiController
         return $this->return_success(__('Gift added successfully'), $gift);
     }
 
+
+    public function  gifts_templates()
+    {
+
+        $templates  =  GiftTemplate::get();
+        return GiftTemplateResource::collection($templates);
+    }
 }

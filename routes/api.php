@@ -145,5 +145,8 @@ Route::get('gifts', [GiftController::class, 'index']);
 Route::get('gifts/{id}', [GiftController::class, 'show']);
 Route::post('gifts', [GiftController::class, 'store']);
 
+
+Route::get('gifts_templates', [GiftController::class, 'gifts_templates']);
+
 Route::get('search', [ProjectController::class, 'search']);
 Route::get('gold-prices', GoldPriceController::class);
