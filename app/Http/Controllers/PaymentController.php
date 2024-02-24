@@ -120,7 +120,7 @@ class PaymentController extends Controller
                 'customer_name' => $user->name ?? 'New Customer',
                 'amount' => $amount,
                 'customer_email' => $user->email ?? 'email@example.com',
-                'customer_phone' => $user->phone ?? '',
+                'customer_phone' => $limitedNumber = substr($user->phone, 0, 11) ?? '11111111111',
                 'language' => config('app.local'),
                 'order_id' => $orderNumber,
                 'payment_type' => $data['payment_type'] ?? '',
