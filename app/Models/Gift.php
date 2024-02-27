@@ -26,7 +26,8 @@ class Gift extends Model
         'recipient_email',
         'price',
         'order_project_id',
-        'template'
+        'template',
+        'template_id'
     ];
 
     public function user()
@@ -36,13 +37,18 @@ class Gift extends Model
 
     public function project()
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(Project::class,'project_id');
     }
 
 
     public function order_project()
     {
         return $this->belongsTo(OrderProject::class,'order_project_id');
+    }
+
+    public function giftTemplate()
+    {
+        return $this->belongsTo(GiftTemplate::class,'template_id');
     }
 
 }

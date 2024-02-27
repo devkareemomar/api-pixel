@@ -16,7 +16,7 @@ class GiftRequest extends FormRequest
     {
         return [
             'project_id'      => 'required|exists:projects,id',
-            'template'        => 'required|image|mimes:png,jpg,jpeg,webp',
+            'template_id'    => 'required|exists:gift_templates,id',
             'sender_name'     => 'required|string',
             'sender_email'    => 'required|email',
             'recipient_name'  => 'required|string',

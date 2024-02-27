@@ -22,13 +22,14 @@ class GiftMail extends Mailable
      */
     public function __construct($gift)
     {
-        $this->template_url = asset("storage/$gift->template");
+        $this->template_url = config('app.dashboard') . $gift->giftTemplate?->original_image;
         $this->recipient_name =   $gift->recipient_name;
         $this->sender_name =   $gift->sender_name;
-        $this->projectName =   $gift->project->getDefaultAttribute('name');
+        $this->projectName =   $gift->project->name;
+
     }
 
- 
+
     /**
      * Build the message.
      *

@@ -39,7 +39,7 @@ class UpdateProjectDonations
                     ->send(new GiftMail($gift));
                 }
             }
-           
+
 
         }
     }

@@ -41,14 +41,14 @@ class GiftController extends BaseApiController
 
     public function store(GiftRequest $request)
     {
-     
 
-       
+
+
 
         try {
             // Begin transaction
             DB::beginTransaction();
-            
+
             $data = $request->validated();
 
             $latestOrder = Order::latest()->first();
@@ -75,12 +75,10 @@ class GiftController extends BaseApiController
                 'email'   =>  $data['sender_email'] ?? null,
             ]);
 
-            if ($request->hasFile('template')) {
-                $data['template'] = $request->file('template')->store('templates', 'public');
-            }
+
             $gift = Gift::create([
                 'project_id' => $data['project_id'],
-                'template' => $data['template'],
+                'template_id' => $data['template_id'],
                 'sender_name' => $data['sender_name'],
                 'sender_email' => $data['sender_email'],
                 'recipient_name' => $data['recipient_name'],
