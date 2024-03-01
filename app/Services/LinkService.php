@@ -24,7 +24,7 @@ class LinkService implements LinkInterface
                     'url' => config('app.front') . $link->project->slug,
                     'is_external' => false,
                     'project_sku' => $link->project->sku,
-                    'project_id' => $link->project->id,
+                    'project_slug' => $link->project->slug,
                 ];
             } else {
                 $data = [
