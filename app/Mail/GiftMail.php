@@ -38,8 +38,8 @@ class GiftMail extends Mailable
     public function build()
     {
         $template_url = $this->template_url;
-        $recipient_name = $this->template_url;
-        $sender_name = $this->template_url;
+        $recipient_name = $this->recipient_name;
+        $sender_name = $this->sender_name;
         $projectName = $this->projectName;
         return $this->view('email.gift_template', compact('template_url','sender_name','recipient_name','projectName'))->subject('هدية مقدمه من  '.$this->sender_name);
     }
