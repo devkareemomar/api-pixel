@@ -74,8 +74,10 @@ class LinkController extends BaseApiController
                 'project_id' => $data['project_id'],
                 'qty'     => 1,
                 'price'   =>  $data['amount'],
-                'name'    =>  null,
-                'email'   =>  null,
+                'name'    =>    $data['gifted_to_name'] ?? null,
+                'email'   =>    $data['gifted_to_email'] ?? null,
+                'phone'   =>    $data['gifted_to_phone'] ?? null,
+                'comment' =>    $data['donor_comment'] ??null,
             ]);
 
 

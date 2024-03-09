@@ -19,6 +19,10 @@ class LinkRequest extends FormRequest
             'amount'          => 'required|numeric',
             'payment_type'    => 'required',
             'user_id'         => 'nullable',
+            'gifted_to_email'         => 'nullable',
+            'gifted_to_phone'         => 'nullable',
+            'gifted_to_name'         => 'nullable',
+            'donor_comment'         => 'nullable',
         ];
     }
 }
