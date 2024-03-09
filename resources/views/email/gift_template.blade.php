@@ -42,14 +42,15 @@
       <tr style="height:220px">
         <td align="center" style="vertical-align :bottom">
           <h3>
-            {{$projectName}}
+            {{$recipient_name}}
+
           </h3>
         </td>
       </tr>
       <tr style="height:180px">
         <td align="center" style="vertical-align :middle">
           <h3>
-            {{$recipient_name}}
+            {{$projectName}}
 
           </h3>
         </td>
