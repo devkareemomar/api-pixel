@@ -177,6 +177,9 @@ return [
         App\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         App\Providers\InterfaceServiceProvider::class,
+
+        Barryvdh\Snappy\ServiceProvider::class,
+
     ])->toArray(),
 
     /*
@@ -192,6 +195,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+
     ])->toArray(),
 
 ];

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GiftRequest extends FormRequest
+class LinkRequest extends FormRequest
 {
 
     /**
@@ -16,15 +16,9 @@ class GiftRequest extends FormRequest
     {
         return [
             'project_id'      => 'required|exists:projects,id',
-            'template_id'    => 'required|exists:gift_templates,id',
-            'sender_name'     => 'required|string',
-            'sender_email'    => 'required|email',
-            'recipient_name'  => 'required|string',
-            'recipient_email' => 'required|email',
-            'price'           => 'required|numeric',
+            'amount'          => 'required|numeric',
             'payment_type'    => 'required',
-            'user_id'    => 'nullable',
-
+            'user_id'         => 'nullable',
         ];
     }
 }

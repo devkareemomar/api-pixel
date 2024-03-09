@@ -43,8 +43,6 @@ class GiftController extends BaseApiController
     {
 
 
-
-
         try {
             // Begin transaction
             DB::beginTransaction();
@@ -57,6 +55,7 @@ class GiftController extends BaseApiController
 
             $order = Order::create([
                 'code' => $orderNumber,
+                'user_id' => $data['user_id'] ?? null,
                 'amount' => $data['price'],
                 'sub_total' => $data['price'],
                 'name' =>  $data['sender_name'] ?? null,

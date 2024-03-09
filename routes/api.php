@@ -102,6 +102,7 @@ Route::get('news/{id}', [NewsController::class, 'news_details']);
 Route::get('init/request', [InitRequestController::class, 'init']);
 
 Route::get('link/{code}', [LinkController::class, 'link']);
+Route::post('link/store', [LinkController::class, 'store']);
 
 
 Route::get('carts/{id}', [CartController::class, 'projects']);
